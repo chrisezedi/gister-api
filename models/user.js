@@ -213,7 +213,7 @@ module.exports.join = function(id,uid,payload){
                 });
             }else{return reject('Someone with this username is already in the room') }
         }else{
-             return reject('Password Incorrect') 
+             return reject('Password is Incorrect') 
         }
     })
     
