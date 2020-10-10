@@ -1,0 +1,68 @@
+//required modules
+require('dotenv').config();
+const User = require('./models/user');
+const express = require('express');
+const cors = require('cors');
+const mongoose = require('mongoose');
+const socketio = require('socket.io');
+const http = require('http');
+const PORT = process.env.PORT || 5000
+const router = require('./router');
+const app = express();
+const server = http.createServer(app);
+
+const io = socketio(server);
+
+app.use(express.json());
+app.use(cors());
+app.use(router);
+
+//database connection string and error handling
+const db = "mongodb://127.0.0.1/gister";
+let DB = mongoose.connect(db, {useNewUrlParser:true,useUnifiedTopology:true});
+    DB.then(()=>console.log(`Database connection @ ${db}`))
+      .catch((error)=>console.log(error));
+
+io.on('connect', (socket)=>{
+    socket.on('join',async ({id,payload},callback)=>{
+        socket.roomid = id;
+        try {
+            const result = await User.join(id,socket.id,payload);
+            socket.join(result.room.name);
+            socket.emit('joinSuccess',{ 
+                user: 'admin',
+                text: `${result.name}, welcome to room ${result.room.name}.`,
+                room:result.room,
+                name:result.name,
+                password:result.password,
+                init:payload.init
+            });
+            socket.broadcast.to(result.room.name).emit('joinSuccess', { user: 'admin', text: `${result.name} has joined!`,room:result.room,init:payload.init });
+
+            callback();
+
+        } catch (error) {
+            callback(error);
+        }
+    });
+
+    socket.on('sendMessage', async ({id,name,message},callback)=>{
+        const room = await User.getRoom(id);
+        io.to(room.name).emit('message',{ user:name, text: message });
+        await User.saveMessage(id,{name,message})
+        callback();
+    });
+
+    socket.on('setLogout', async({id},callback)=>{
+        const result = await User.setLogout(id,socket.id);
+        callback(result.logout);
+    });
+
+    socket.on('disconnect',async ()=>{
+        const {room,name,logout} = await User.removeUser(socket.roomid,socket.id);
+        io.to(room.name).emit('logout',{user:'admin',text:`${name} has left`,room,logout});
+    });
+
+});
+
+server.listen(PORT, ()=>console.log(`Server running on PORT ${PORT}`));

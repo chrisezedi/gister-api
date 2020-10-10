@@ -1,0 +1,21 @@
+{
+  "name": "app",
+  "version": "1.0.0",
+  "description": "Backend for gister chat app",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "author": "Ekene Chris Okonji-Ezedi",
+  "license": "MIT",
+  "dependencies": {
+    "bcrypt": "^5.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "googleapis": "^61.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.10.2",
+    "socket.io": "^2.3.0"
+  }
+}
