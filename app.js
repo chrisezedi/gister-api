@@ -13,7 +13,7 @@ const router = require('./router');
 const User = require('./models/user');
 
 //cors set up
-var whitelist = ['https://gister.netlify.app']
+var whitelist = ['https://gister.netlify.app/']
 var corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
