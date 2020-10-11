@@ -11,11 +11,22 @@ const router = require('./router');
 const app = express();
 const server = http.createServer(app);
 
-const io = socketio(server);
+//cors set up
+var whitelist = ['https://gister.netlify.app']
+var corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
+}
 
+app.use(cors(corsOptions));
 app.use(express.json());
-app.use(cors());
 app.use(router);
+const io = socketio(server);
 
 //database connection string and error handling
 const db = process.env.DB_CONN;
