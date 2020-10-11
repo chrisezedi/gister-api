@@ -76,6 +76,8 @@ router.put('/user', async (req,res)=>{
 //create room
 router.post('/room',Auth, async (req,res)=>{
     try { 
+        console.log(req.user)
+        console.log(req.body)
         const user = await User.createRoom(req.user._id,req.body);
         res.status(200).json({user});
     } catch (error) {
