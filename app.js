@@ -18,7 +18,7 @@ app.use(cors());
 app.use(router);
 
 //database connection string and error handling
-const db = "mongodb://127.0.0.1/gister";
+const db = process.env.DB_CONN;
 let DB = mongoose.connect(db, {useNewUrlParser:true,useUnifiedTopology:true});
     DB.then(()=>console.log(`Database connection @ ${db}`))
       .catch((error)=>console.log(error));
