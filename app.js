@@ -1,15 +1,16 @@
 //required modules
 require('dotenv').config();
-const User = require('./models/user');
 const express = require('express');
+const app = express();
+const server = http.createServer(app);
+const http = require('http');
+
 const cors = require('cors');
 const mongoose = require('mongoose');
 const socketio = require('socket.io');
-const http = require('http');
 const PORT = process.env.PORT || 5000
 const router = require('./router');
-const app = express();
-const server = http.createServer(app);
+const User = require('./models/user');
 
 //cors set up
 var whitelist = ['https://gister.netlify.app']
