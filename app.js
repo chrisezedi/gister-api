@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 5000
 const User = require('./models/user');
 
 app.use(express.json());
-app.options('*', cors())
+app.use(cors({origin:true,credentials:true}));
 
 
 const server = http.createServer(app);
