@@ -9,7 +9,7 @@ const mongoose = require('mongoose');
 const socketio = require('socket.io');
 const PORT = process.env.PORT || 5000
 const User = require('./models/user');
-
+app.options('*', cors())
 //cors set up
 var whitelist = ['https://gister.netlify.app']
 var corsOptions = {
