@@ -2,18 +2,16 @@
 require('dotenv').config();
 const express = require('express');
 const app = express();
-const server = http.createServer(app);
 const http = require('http');
 
 const cors = require('cors');
 const mongoose = require('mongoose');
 const socketio = require('socket.io');
 const PORT = process.env.PORT || 5000
-const router = require('./router');
 const User = require('./models/user');
 
 //cors set up
-var whitelist = ['https://gister.netlify.app/']
+var whitelist = ['https://gister.netlify.app']
 var corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
@@ -26,8 +24,13 @@ var corsOptions = {
 
 app.use(cors(corsOptions));
 app.use(express.json());
-app.use(router);
+
+const server = http.createServer(app);
 const io = socketio(server);
+
+const router = require('./router');
+app.use(router);
+
 
 //database connection string and error handling
 const db = process.env.DB_CONN;
