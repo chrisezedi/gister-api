@@ -23,7 +23,7 @@ const User = require('./models/user');
 // }
 
 app.use(express.json());
-app.use(cors({origin: 'https://gister.netlify.app'}));
+app.use(cors());
 
 const server = http.createServer(app);
 const io = socketio(server);
