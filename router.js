@@ -38,6 +38,7 @@ router.post('/google-auth', async(req,res)=>{
         const url = getConnectionUrl();
         res.status(200).json({url});
     } catch (error) {
+        console.log(error)
         res.status(500).json({error});
     }
 });
