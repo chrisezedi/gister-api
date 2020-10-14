@@ -4,7 +4,7 @@
   "description": "Backend for gister chat app",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js"
+    "start": "nodemon app.js"
   },
   "author": "Ekene Chris Okonji-Ezedi",
   "license": "MIT",

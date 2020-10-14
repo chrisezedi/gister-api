@@ -38,7 +38,6 @@ router.post('/google-auth', async(req,res)=>{
         const url = getConnectionUrl();
         res.status(200).json({url});
     } catch (error) {
-        console.log(error)
         res.status(500).json({error});
     }
 });
@@ -69,7 +68,6 @@ router.put('/user', async (req,res)=>{
         const {user,token} = await User.registerUser(req.body);
         res.status(200).json({user,token});  
     } catch (error) {
-        console.log(error)
         res.status(500).json({error});  
     }
 });
@@ -77,8 +75,6 @@ router.put('/user', async (req,res)=>{
 //create room
 router.post('/room',Auth, async (req,res)=>{
     try { 
-        console.log(req.user)
-        console.log(req.body)
         const user = await User.createRoom(req.user._id,req.body);
         res.status(200).json({user});
     } catch (error) {

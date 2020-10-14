@@ -10,8 +10,22 @@ const socketio = require('socket.io');
 const PORT = process.env.PORT || 5000
 const User = require('./models/user');
 
+//cors option
+var whitelist = ['https://gister.netlify.app','http://localhost:8080']
+var corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
+}
+
 app.use(express.json());
-app.use(cors({origin:true,credentials:true}));
+app.use(cors());
+//preflight requests
+app.options('*', cors(corsOptions))
 
 
 const server = http.createServer(app);
